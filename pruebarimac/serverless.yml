@@ -1,0 +1,32 @@
+service: pruebarimac
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: us-east-1
+  environment:
+    STAR_WARS_API_URL: 'https://swapi.py4e.com/api'
+    DYNAMODB_TABLE: 'ItemsTable'
+
+functions:
+  createItem:
+    handler: src/handlers/createItem.handler
+    events:
+      - http:
+          path: items
+          method: post
+  getItem:
+    handler: src/handlers/getItem.handler
+    events:
+      - http:
+          path: items
+          method: get
+
+plugins:
+  - serverless-offline
+
+custom:
+  serverless-offline:
+    stage: dev
