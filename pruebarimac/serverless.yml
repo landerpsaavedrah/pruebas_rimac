@@ -6,6 +6,8 @@ provider:
   name: aws
   runtime: nodejs18.x
   region: us-east-1
+  memorySize: 128 # Optimización para reducir costos
+  timeout: 10 # Ajuste de timeout para llamadas cortas
   environment:
     STAR_WARS_API_URL: 'https://swapi.py4e.com/api'
     DYNAMODB_TABLE: 'ItemsTable'
@@ -22,6 +24,25 @@ functions:
     events:
       - http:
           path: items
+          method: get
+  
+  fusionados:
+    handler: src/handlers/getFusionados.handler
+    events:
+      - http:
+          path: fusionados
+          method: get
+  almacenar:
+    handler: src/handlers/createItem.handler
+    events:
+      - http:
+          path: almacenar
+          method: post
+  historial:
+    handler: src/handlers/getHistorial.handler
+    events:
+      - http:
+          path: historial
           method: get
 
 plugins:
